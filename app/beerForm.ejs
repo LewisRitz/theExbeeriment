@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en" ng-app="surveyApp"> <!--<![endif]-->
+<head>
+<link rel="stylesheet" href="../../styles/beerFormStyles.css" type="text/css">
+<script type="text/javascript" src="../../bower_components/jquery/dist/jquery.js"></script>
+
+	<script src="../../bower_components/angular/angular.js"></script>
+	<script src="../../bower_components/angular-route/angular-route.js"></script>
+	<!-- <script src="app3.js"></script> -->
+	<script type="text/javascript" src="../../app/js/surveyController.js"></script>
+	<script src="../../node_modules/angularGrid/ng-grid.js"></script>
+</head>
+<script>
+ 	console.log("the url: "+document.URL);
+</script>
+<body>
+	<div class="backgroundImage" ng-controller="surveyController">
+		<div class="header">
+			<h1>{{ mainTitle }}</h1>
+		</div>
+		<div class="headerBuffer"></div>
+		<div class="surveyName">
+			<h2>{{ surveyName }}</h2>
+		</div>
+		<div class="beerName">
+			<h2>The Beer: {{ beerName }}</h2>
+		</div>
+		<div class="beerDetails" ng-repeat="beerDeet in beerDetails">
+			<h3><strong>{{beerDeet.detailProperty}}</strong><small>: {{beerDeet.detailDescription}}<small></h3>
+		</div>
+		<div class="surveyQuestions" ng-repeat="question in theQuestionArray">
+			<div ng-if="question.type.id == 1 || question.theType.id == 1">
+				<h2>{{$index+1}}). {{question.title}}</h2>
+				<select>
+					<option ng-repeat="option in question.dropDownListWord.theOptions" value="{{option.value}}">{{option.displayWord}}</option>
+				</select>
+			</div>
+			<div ng-if="question.type.id == 3 || question.theType.id == 3">
+				<h2>{{$index+1}}). {{question.title}}</h2>
+				<textarea rows="{{question.textArea.rows}}" cols="{{question.textArea.cols}}" wrap="{{question.textArea.textWrap}}" ng-requiired="{{question.questionRequired}}" placeholder="{{question.textArea.placeholder}}" maxlength="{{question.textArea.maxLength}}"></textarea>
+			</div>
+			<div ng-if="question.type.id == 4 || question.theType.id == 4">
+				<h2>{{$index+1}}). {{question.title}}</h2>
+				<div ng-repeat="option in question.checkBoxGroup.theOptions">
+					<input type="checkbox" name="{{question.checkBoxGroup.groupName}}" value="option.theValue" ng-model="questionValueArray[option._id]">{{option.displayWord}} :: {{questionValueArray[option.theQuestionNumber][$index]}} :: {{$index}}<br />
+				</div>
+			</div>
+			<div ng-if="question.type.id == 5 || question.theType.id == 5">
+				<h2>{{$index+1}}). {{question.title}}</h2>
+				<div ng-repeat="option in question.radioButton.theOptions">
+					<input type="radio" name="{{question.radioButton.groupName}}" value="option.theValue" ng-model="questionValueArray[option._id]">{{option.displayWord}}<br />
+				</div>
+			</div>
+			<div ng-if="question.type.id == 6 || question.theType.id == 6">
+				<h2>{{$index+1}}). {{question.title}}</h2>
+				<input list="questionNumber{{question._id}}">
+				<datalist id="questionNumber{{question._id}}">
+					<option ng-repeat="option in question.dataList.theOptions" value="{{option.displayWord}}">{{option.value}}</option> 
+				</datalist>
+			</div>
+			<div ng-if="question.type.id == 7 || question.theType.id == 7">
+				<h2>{{$index+1}}). {{question.title}}</h2>
+				<input type="text" defaultValue="{{question.textField.defaultValue}}" maxLength="{{question.textField.maxLength}}" ng-requiired="{{question.required}}" placeholder="{{question.textField.placeholder}}" size="{{question.textField.size}}}" ng-model="questionValueArray[question.questionId]"></input>
+			</div>
+			 <!-- <div ng-if="question.type.id == 8 || question.theType.id == 8">
+				<h2>{{$index+1}}). {{question.title}}</h2>
+				<input ng-model="scope[question.theType.id][question._id]" type="range" defaultValue="{{question.slideBar.defaultValue}}" max="{{question.slideBar.maxRange}}" min="{{question.slideBar.minRange}}" step="{{question.slideBar.stepAmount}}" ng-required="{{question.required}}"></input>
+
+				<input type="text" defaultValue="{{question.slideBar.defaultValue}}" size="3" readOnly></input><h4>{{question.slideBar.theUnits}}</h4><!-- <button ng-click="stepUpSlider()">Step Up</button><button ng-click="stepDownSlider()">Step Down</button> 
+					ng-change="updateSlider(theSlider{{question._id}})"
+					value="{{theSlider[question._id] }}"
+				
+			</div> -->
+		</div>
+		<div class="submitFormButton"><button type="submit" ng-click="submitFormData()">Submit Form</button></div>
+	</div>
+
+
+	<div ng-repeat="question in theSurveyQuestions">
+						
+
+					</div>
+
+</body>
+</html>
