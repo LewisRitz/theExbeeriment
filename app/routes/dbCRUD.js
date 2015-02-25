@@ -5,6 +5,7 @@ module.exports = function(app, passport) {
 	path = require('path'),
 	mongoose= require('mongoose');
 
+	// inheret db models
 	var BeerSurvey = require('../../app/models/beerSurvey');
 	var Question = require('../../app/models/question');
 	// var AnswerOption = require('../app/models/answerOptions');
