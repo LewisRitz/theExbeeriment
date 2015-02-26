@@ -5,6 +5,11 @@ module.exports = function(app, passport) {
 	path = require('path'),
 	mongoose= require('mongoose');
 
+	//**************** JASMINE TESTING *******************///
+	app.get('/hello', function(req, res){
+		res.send('hello world');
+	});
+
 	//**************** MAIN ANGULAR FILES ****************///
 
 	app.get('/testingEnigmaMachine/:codeToEncrypt', function(req, res){

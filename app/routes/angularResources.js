@@ -23,7 +23,7 @@ module.exports = function(app, passport) {
 		readStream.pipe(res);
 	});
 
-	app.get('js/directives.js', function(req, res){
+	app.get('/app/js/directives.js', function(req, res){
 		console.log("Request handler 'directives.js' was called.");
 		var filePath = './app/js/directives.js';
 		var stat = fileSystem.statSync(filePath);
