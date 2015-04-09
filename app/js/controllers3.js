@@ -1,6 +1,7 @@
 'use strict';
 
-var beerApp = angular.module('beerApp', ['ngGrid'] );
+// var beerApp = angular.module('beerApp', ['ngGrid'] );
+var beerApp = angular.module('beerApp', []);
 
 beerApp.factory('myService', function($http) {
 	var myService = {
@@ -27,12 +28,106 @@ beerApp.factory('myService', function($http) {
 //     				surveyTitle: $scope.newSurveyTitle,  
 //     				surveyDescription: $scope.newSurveyDescription
 
+beerApp.controller('homePageController', [ 'myService', '$scope', '$http', '$timeout', function(myService, $scope, $http, $timeout) {
+	$scope.someValueToTest = ["A", "B", "C"];
+	$scope.theirEmail = "";
+	$scope.mainTitle = 'The Exbeeriment';
+	$scope.clicked = false;
+	$scope.myVar = '';
+	$scope.alertMessageText = '';
+	$scope.testFunction = function(){
+		console.log("this is a test");
+	};
+	$scope.submitForgotPassword = function(){
+		if(($scope.theirEmail != undefined) && ($scope.forgotPassForm.email.$dirty) && (!($scope.forgotPassForm.email.$invalid))) {
+			console.log('passed');
+			// console.log('email dirty: '+(($scope.forgotPassForm.email.$dirty)));
+			// console.log('email invalid: '+(($scope.forgotPassForm.email.$invalid)));
+    		$http({
+    			method: 'POST',
+    			url: '/submitForgotPassword',
+    			data: {
+    				theirEmail: $scope.theirEmail
+    			},
+    		}).success(function(data, status, headers, config){
+    			if(status===200){
+    				console.log("email has been saved");
+    				$scope.alertMessageText= "An email has been sent.";
+    				$scope.changeValues('Success');
+    				//$scope.changeValues();
+    			}
+    		}).error(function(data, status, headers, config){
+    			console.log("Something went wrong, please try again or wait a few minuites."); 
+	    		$scope.alertMessageText= "Something went wrong, please try again or wait a few minuites.";
+	    		$scope.changeValues('Error');
+    		});
+    	} else { 
+    		console.log("Something went wrong, please try again or wait a few minuites."); 
+    		$scope.alertMessageText= "Something went wrong, please try again or wait a few minuites.";
+    		$scope.changeValues('Error');
+    	}
+	};
+	$scope.displayMessage = function(){
+		var finished = false;
+		while (!finished){
+
+		}
+		var id = setInterval(function() {
+			showOkayMessage = true;
+			if (finished) clearInterval(id);
+		}, 10);
+	};
+	$scope.triggerMessage = function() {
+		if ($scope.clicked) { $scope.clicked = false; }
+		else { $scope.clicked = true; }
+	};
+	$scope.changeValues = function(newClassName){
+		$scope.myVar = newClassName;
+		console.log('1'+$scope.myVar);
+		$timeout(function(){$scope.myVar = ''}, 3000);
+		//setTimeout(function(){ $scope.myVar = ''; }, 3000);
+	};
+	// $scope.changeValues = function(){
+	// 	$scope.myVar = 'my-class';
+	// 	console.log('1'+$scope.myVar);
+	// 	$timeout(function(){$scope.myVar = ''}, 3000);
+	// 	//setTimeout(function(){ $scope.myVar = ''; }, 3000);
+	// };
+	$scope.changeValuesBack = function(){
+		$scope.myVar = '';
+		console.log('2'+$scope.myVar);
+	};
+
+
+
+
+
+	$scope.signup = function(){
+		// if((this.email != undefined)){
+    		$http({
+    			method: 'POST',
+    			url: '/addNewUser',
+    			data: { email: email, password: password },
+    		}).success(function(data, status, headers, config){
+    			if(status===200){
+    				console.log("new user request passed");
+    			}
+    		});
+    	// }
+	}
+} ]);
+
 beerApp.controller('beerController', [ 'myService','$scope', '$http', function(myService, $scope, $http) {
 	$scope.surveyId = 1;
 	$scope.theParentSurvey = {};
 	$scope.aSurveyWasMade = false;
 	$scope.aSurveyWasMade2 = false;
 	$scope.beerWasMade = false;
+
+	//$scope.stage = "CreateSurvey"
+	$scope.displayPreview = false;
+
+
 	$scope.beerId = "54badb4ccd44ff295fea7803";
 	$scope.theParentBeer = {};
 	$scope.theNewDetail = {}
@@ -45,8 +140,9 @@ beerApp.controller('beerController', [ 'myService','$scope', '$http', function(m
 
 	$scope.mainTitle = 'The Exbeeriment';
 	$scope.test2 = window.location.pathname; //document.URL; //window.location.pathname
-	$http.get('getDataTest'+$scope.test2).success(function(data) { $scope.users = data; });
-	console.log($scope.users);
+	//$http.get('getDataTest'+$scope.test2).success(function(data) { $scope.users = data; });
+	//console.log($scope.users);
+
 	$scope.dropDownListForm = false; $scope.textAreaForm = false; $scope.checkboxForm = false; 
 	$scope.radioButtonForm = false; $scope.dataListForm = false; $scope.textFieldForm = false;
 	$scope.sliderForm = false;
@@ -159,6 +255,7 @@ beerApp.controller('beerController', [ 'myService','$scope', '$http', function(m
 		// 	'value' : $scope.dropDownListValue
 		// });
 		$scope.dropDownListWord.options.push(newOption);
+		$scope.v = true;
 		// $scope.dropDownListWord = '';
 		// $scope.dropDownListValue = '';
 	};
@@ -447,8 +544,11 @@ beerApp.controller('beerController', [ 'myService','$scope', '$http', function(m
     			if(status===200){
     				console.log("new survey saved");
     				$scope.aSurveyWasMade = true;
+    				$scope.step1Active = true;
+    				$scope.step0Active = false;
     				$scope.theParentSurvey = data;
     				$scope.surveyId = data._id;
+    				//$scope.stage = "CreateBeer";
     				console.log("test if the new survey id is correct: "+$scope.surveyId);
     				console.log("the survey data: "+JSON.stringify(data));
     			}
@@ -487,6 +587,7 @@ beerApp.controller('beerController', [ 'myService','$scope', '$http', function(m
     				$scope.beerWasMade = true;
     				$scope.theParentBeer = data;
     				$scope.beerId = data._id;
+    				//$scope.stage = "AddDetailToBeer";
     				console.log("the beer data: "+JSON.stringify(data));
     			}
     		});
@@ -511,6 +612,7 @@ beerApp.controller('beerController', [ 'myService','$scope', '$http', function(m
     				console.log(JSON.stringify(data));
     				$scope.detailWasAdded = true;
     				$scope.theNewDetail = data;
+    				//$scope.stage = "AddQuestionsToSurvey"
     			}
     		});
     	} else { console.log("something was invalid");

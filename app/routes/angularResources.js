@@ -38,4 +38,77 @@ module.exports = function(app, passport) {
 		var readStream = fileSystem.createReadStream(filePath);
 		readStream.pipe(res);
 	});
+
+	// directive dependencies
+	app.get('/adminLogin.js', function(req, res){
+		console.log('Request handler for "/adminLogin.js" called');
+		var filePath = './app/js/components/adminLogin/admin-login-directive.js';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+
+	app.get('/adminLogin.html', function(req, res){
+		//res.send('../app/js/components/adminLogin/admin-login.html');
+		console.log('Request handler for "/adminLogin.html" called');
+		var filePath = './app/js/components/adminLogin/admin-login.html';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+
+	app.get('/notificationBar.js', function(req, res){
+		console.log('Request handler for "/notificationBar.js" called');
+		var filePath = './app/js/components/notificationBar/notification-bar-directive.js';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+
+	app.get('/notificationBarService.js', function(req, res){
+		console.log('Request handler for "/notificationBar.js" called');
+		var filePath = './app/js/components/notificationBar/notification-bar-service.js';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+
+	app.get('/notificationBar.html', function(req, res){
+		//res.send('../app/js/components/adminLogin/admin-login.html');
+		console.log('Request handler for "/notificationBar.html" called');
+		var filePath = './app/js/components/notificationBar/notification-bar.html';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+
+	app.get('/dashboardController.js', function(req, res){
+		console.log('Request handler for "/dashboardController.js" called');
+		var filePath = './app/js/components/dashboard/dashboard-controller.js';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+
+	app.get('/dashboard.css', function(req, res){
+		console.log('Request handler for "/dashboardController.js" called');
+		var filePath = './app/js/components/dashboard/dashboard-controller.css';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

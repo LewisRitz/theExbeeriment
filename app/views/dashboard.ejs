@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en" ng-app="dashboardApp"> <!--<![endif]-->
+<head>
+<link rel="stylesheet" href="../../styles/beerFormStyles.css" type="text/css">
+<script type="text/javascript" src="../../bower_components/jquery/dist/jquery.js"></script>
+
+	<script src="../../bower_components/angular/angular.js"></script>
+	<script src="../../bower_components/angular-route/angular-route.js"></script>
+	<script src="/dashboardController.js"></script>
+	<!-- <script src="app3.js"></script> -->
+	<!-- <script type="text/javascript" src="../../app/js/controllers3z.js"></script> -->
+	<script src="../../node_modules/angularGrid/ng-grid.js"></script>
+	<script src="/notificationBar.js"></script>
+	<link rel="stylesheet" href="/dashboard.css" type="text/css">
+</head>
+<script>
+ 	console.log("the url: "+document.URL);
+</script>
+<body>
+	<div class="backgroundImage">
+		<div ng-controller="parentDashboardController">
+			<div class="header">
+				<h1>The Exbeeriment</h1>
+			</div>
+			<div class="alertMessage" ng-class="myVar" style="background-color:{{alertMessageBackgroundColor}};">
+				<div class="rowSection">
+					<h1>{{myVar}}:</h1><h2>{{ alertMessageText }}</h2>
+				</div>
+			</div>
+			<div class="headerBuffer"></div>
+			<!-- <div class="rowSection">
+				<h1>Dashboard</h1>
+				<h4>Welcome to the dashboard! You should only be able to get here if you're signed in.</h4><br />
+			</div> -->
+			<div class="rowSection">
+				<h3 ng-click="showNotificationBar('Success')">Click here to trigger response message</h3>
+			</div>
+		</div>
+		<div class="phoneWidth"></div>
+		<div class="formCreatingSection" ng-controller="formController" style="position: absolute;">
+			<h1>Form Creation</h1>
+
+			<h2>Step 1: Create A New Survey</h2>
+			<h4>Enter the name of the survey</h4>
+			<h4>Enter a survey description</h4>
+
+			<h2>Setp 2: Create A New Beer-Batch</h2>
+			<h4>Enter the name of the beer</h4>
+			<h4>Enter the batch info</h4>
+
+			<h2>Step 3: Create Details For Your Beer-Batch (optional)</h2>
+			<h4>Enter the beer batch detail category</h4>
+			<h4>Enter some details for the beer batch</h4>
+
+			<h2>Step 4: Add Your Survey Quetions</h2>
+		</div>
+
+		<style>
+			h1, h2, h4 { text-align: center !important; } 
+		</style>
+
+		<!-- <form name="forgotPassForm">
+			<div class="rowSection">
+				<h4>Email: </h4>
+				<input type="text" name="email" ng-model="theirEmail" required>
+				<div style="color:red" ng-show="forgotPassForm.email.$dirty && myForm.email.$invalid">
+					<h4 ng-show="myForm.email.$error.required">Email is required.</h4>
+					<h4 ng-show="myForm.email.$error.email">Invalid email address.</h4>
+				</div>
+			</div>
+			<div class="rowSection">
+				<button type="Submit" ng-click="submitForgotPassword()" ng-disabled="myForm.user.$dirty && myForm.user.$invalid || myForm.email.$dirty && myForm.email.$invalid">Send Email</button>
+			</div>
+			<div class="rowSection">
+				<button ng-click="signup()">Sign Up</button>
+			</div>
+		</form> -->
+		<!-- <input id="setbtn" type="button" value="set" ng-click="myVar='my-class'; theDynamicClass='alertMessageClass'">
+			<input id="clearbtn" type="button" value="clear" ng-click="myVar=''">
+			<br>
+			<span class="base-class" ng-class="myVar">Sample Text</span>	 -->
+		<!-- <input type="button" ng-click="myVar='my-class'">
+		<input type="button" ng-click="myVar=''"> -->
+		<!-- <input type="button" value="success" ng-click="changeValues('Success')">
+		<input type="button" value="warning" ng-click="changeValues('Warning')">
+		<input type="button" value="error" ng-click="changeValues('Error')">
+		<input type="button" value="info" ng-click="changeValues('Info')">
+		<br>
+		<span class="base-class" ng-class="myVar">Sample Text</span>	 -->
+	</div>
+</body>
+</html>

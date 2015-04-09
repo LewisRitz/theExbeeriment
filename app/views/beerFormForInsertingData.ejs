@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en" ng-app="beerApp"> <!--<![endif]-->
+<head>
+<link rel="stylesheet" href="styles/beerFormStyles.css" type="text/css">
+<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-route/angular-route.js"></script>
+	<!-- <script src="app3.js"></script> -->
+	<script type="text/javascript" src="/app/js/controllers3z.js"></script>
+	<script src="node_modules/angularGrid/ng-grid.js"></script>
+</head>
+<script>
+ 	console.log("the url: "+document.URL);
+</script>
+<body>
+	<div class="backgroundImage" ng-controller="beerController">
+		<div class="header">
+			<h1>{{ mainTitle +";"+ dropDownListForm +":"+stage}}</h1>
+		</div>
+		<div class="headerBuffer"></div>
+		<!-- <div class="theForm">
+			<div class="beerTitle">
+				<h2>Test</h2>
+				<h2>{{ users }}</h2>
+			</div>
+			<div class="beerDetails">
+				<div class="abv"></div>
+				<div class="ibu"></div>
+				<div class="type"></div>
+				<div class="description"></div>
+			</div>
+			<div class="question1">
+				<h3>Do you like the beer?</h3>
+				<input type="button">Button<br/>
+				<input type="checkbox">Checkbox<br/>
+				<input type="color" defaultValue="#ff00ff">Color<br/>
+				<input type="date">Date<br/>
+				<input type="datetime">Datetime<br/>
+				<input type="datetime-local">Datetime-local<br/>
+				<input type="email">Email<br/>
+				<input type="file">File<br/>
+				<input type="hidden">Hidden<br/>
+				<input type="image">Image<br/>
+				<input type="month">Month<br/>
+				<input type="number">Number<br/>
+				<input type="password">Password<br/>
+				<input type="radio">Radio<br/>
+				<input type="range">Range<br/>
+				<input type="reset">Reset<br/>
+				<input type="search">Search<br/>
+				<input type="submit">Submit<br/>
+				<input type="tel">Tel<br/>
+				<input type="text">Text<br/>
+				<input type="time">Time<br/>
+				<input type="url">URL<br/>
+				<input type="week">Week<br/>
+			</div>
+		</div> -->
+		<div class="mainContent">
+			<div class="createANewSurvey">
+				<h1>Create A New Survey: {{stage}}</h1>
+				<div class="SurveyPreview" ng-show="aSurveyWasMade" ng-hide="!aSurveyWasMade">
+					<h1>Preview</h1>
+					<div class="rowSection">
+						<h4>Survey Name: {{theParentSurvey.surveyName}}</h4>
+						<h4>Survey Description: {{theParentSurvey.surveyDescription}}</h4>
+						<h2 ng-show="beerWasMade" ng-hide="!beerWasMade">Survey Url: http://localhost:3000/Survey/{{theParentSurvey.urlIdentifingKey}}/{{theParentBeer._id}}</h2>
+					</div>
+					<!-- <div class="previewBeers" ng-show="beerWasMade" ng-hide="!beerWasMade">
+						<h2>Here is a preview of the beer details in your survey</h2>
+					</div> -->
+					<div class="previewQuestions" ng-show="beerWasMade" ng-hide="!beerWasMade">
+						<div ng-repeat="question in theSurveyQuestions">
+							<div class="rowSection">
+								<div ng-if="question.type.id == 1 || question.theType.id == 1">
+									<h2>{{$index+1}}). {{question.title}}</h2>
+									<select>
+										<option ng-repeat="option in question.dropDownListWord.theOptions" value="{{option.value}}">{{option.displayWord}}</option>
+									</select>
+								</div>
+								<div ng-if="question.type.id == 3 || question.theType.id == 3">
+									<h2>{{$index+1}}). {{question.title}}</h2>
+									<textarea rows="{{question.textArea.rows}}" cols="{{question.textArea.cols}}" wrap="{{question.textArea.textWrap}}" ng-requiired="{{question.questionRequired}}" placeholder="{{question.textArea.placeholder}}" maxlength="{{question.textArea.maxLength}}"></textarea>
+								</div>
+								<div ng-if="question.type.id == 4 || question.theType.id == 4">
+									<h2>{{$index+1}}). {{question.title}}</h2>
+									<div ng-repeat="option in question.checkBoxGroup.theOptions">
+										<input type="checkbox" name="{{question.checkBoxGroup.groupName}}" value="option.theValue">{{option.displayWord}}<br />
+									</div>
+								</div>
+								<div ng-if="question.type.id == 5 || question.theType.id == 5">
+									<h2>{{$index+1}}). {{question.title}}</h2>
+									<div ng-repeat="option in question.radioButton.theOptions">
+										<input type="radio" name="{{question.radioButton.groupName}}" value="option.theValue">{{option.displayWord}}<br />
+									</div>
+								</div>
+								<div ng-if="question.type.id == 6 || question.theType.id == 6">
+									<h2>{{$index+1}}). {{question.title}}</h2>
+									<input list="questionNumber{{question._id}}">
+									<datalist id="questionNumber{{question._id}}">
+										<option ng-repeat="option in question.dataList.theOptions" value="{{option.displayWord}}">{{option.value}}</option> 
+									</datalist>
+								</div>
+								<div ng-if="question.type.id == 7 || question.theType.id == 7">
+									<h2>{{$index+1}}). {{question.title}}</h2>
+									<input type="text" defaultValue="{{question.textField.defaultValue}}" maxLength="{{question.textField.maxLength}}" ng-requiired="{{question.required}}" placeholder="{{question.textField.placeholder}}" size="{{question.textField.size}}}"></input>
+								</div>
+								 <div ng-if="question.type.id == 8 || question.theType.id == 8">
+									<h2>{{$index+1}}). {{question.title}}</h2>
+									<input ng-model="scope[question.theType.id][question._id]" type="range" defaultValue="{{question.slideBar.defaultValue}}" max="{{question.slideBar.maxRange}}" min="{{question.slideBar.minRange}}" step="{{question.slideBar.stepAmount}}" ng-required="{{question.required}}"></input>
+
+									<input type="text" defaultValue="{{question.slideBar.defaultValue}}" size="3" readOnly></input><h4>{{question.slideBar.theUnits}}</h4><button ng-click="stepUpSlider()">Step Up</button><button ng-click="stepDownSlider()">Step Down</button> 
+										ng-change="updateSlider(theSlider{{question._id}})"
+										value="{{theSlider[question._id] }}"
+									
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="createSurveyForm" ng-show="stage == 'CreateSurvey'" ng-hide="stage != 'CreateSurvey'">
+					<h2>Step 1: Create A Survey</h2>
+					<!-- <h1>Create From Scratch</h1> -->
+					<form>
+						<div class="rowSection">
+							<h2>Survey Title:  </h2>
+							<input type="text" maxLength="80" required placeholder="Title" size="50" ng-model="newSurveyTitle">
+						</div>
+						<div class="rowSection">
+							<h2>Survey Description:  </h2>
+							<textarea rows="8" cols="50" required placeholder="Description" maxlength="180" ng-model="newSurveyDescription"></textarea>
+						</div>
+						<div class="rowSection">
+							<button type="submit" ng-click="createANewSurvey()">Begin Process</button>
+						</div>
+					</form>
+					<!-- <h1>Duplicate From An Existing Template</h1> -->
+					<!-- <button ng-click="useDefaultSurvey()">Use Default Survey</button> -->
+				</div>
+
+				<!-- ng-show="{{aSurveyWasMade}}" ng-hide="{{!aSurveyWasMade}}" -->
+				<!-- ng-if="theTestData === 4" -->
+				<div class="surveyDataForm" ng-show="stage == 'CreateBeer'" ng-hide="stage != 'CreateBeer'">
+					<h2>Step 2: Create A New Beer</h2>
+					<form>
+						<div class="rowSection">
+							<h3>Beer Title/Name</h3>
+							<input type="text" maxLength="180" required placeholder="Beer Name" size="80" ng-model="newBeerTitle">
+						</div>
+						<div class="rowSection">
+							<h3>Batch Number/Name</h3>
+							<input type="text" maxLength="180" required placeholder="Batch Description" size="80" ng-model="newBeerBatch">
+						</div>
+						<div class="rowSection">
+							<button type="submit" ng-click="createNewBeerForASurvey()">Create Beer</button>
+						</div>
+						<!-- <button ng-click="useDefaultBeer()">UseDefaultBeer</button> -->
+					</form>
+				</div>
+				<div class="surveyDataForm" ng-show="stage == 'AddDetailToBeer'" ng-hide="stage != 'AddDetailToBeer'">
+					<div class="createBeerDetails" ng-show="beerWasMade" ng-hide="!beerWasMade">
+						<h2>Step 2: Add Details to your beer</h2>
+						<form>
+							<div class="rowSection">
+								<h3>Property</h3>
+								<input type="text" maxLength="180" required placeholder="Property: " size="80" ng-model="newBeerDetailProperty">
+							</div>
+							<div class="rowSection">
+								<h3>Description</h3>
+								<textarea rows="8" cols="50" required placeholder="Description" ng-model="newBeerDetailDescription"></textarea>
+							</div>
+							<div class="rowSection">
+								<button type="submit" ng-click="addDetailToBeer()">Add Property</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="QuestionSection">
+				</div>
+				<div class="createAQuestion" ng-show="stage = 'AddQuestionsToSurvey'" ng-hode="stage != 'AddQuestionsToSurvey'">
+					<h2>Step 3: Add Your Questions</h2>
+					<h3>Select A Question Type:</h3>
+					<div class="rowSection">
+						<input list="questions" ng-model="questionModel" ng-change="testFunction(this)">
+						<datalist id="questions">
+							<option value="Drop Down List">
+							<option value="Text Area">
+							<option value="Check Box List">
+							<option value="Radio Button List">
+							<option value="Searchable Drop Down List">
+							<option value="Text Field">
+							<option value="Slide Bar (numbers only)" disabled>
+						</datalist>
+					</div>
+				</div>
+					<!-- <h3>{{questionModel}} and {{dropDownListForm}}</h3> -->
+					<div ng-show="dropDownListForm" ng-hide="!dropDownListForm">
+						<form>
+							<h3>Drop Down List Question</h3>
+							<div class="rowSection">
+								<h4>Question Name (used for searching): </h4><input required type="text" required ng-model="dropDownQuestionNameField">
+							</div>
+							<div class="rowSection">
+								<h4>Question Title (will be displayed to the user)</h4><input required type="text" required ng-model="dropDownQuestionTitleField">
+							</div>
+							<div class="rowSection">
+								<h4>Description (more detail than the name)</h4><input type="text" ng-model="dropDownQuestionDescriptionField">				
+							</div>
+							<div class="rowSection">
+								<h4>Required (is the user required to fill this in?)</h4><input type="checkbox" ng-model="dropDownQuestionRequiredField">
+							</div>
+							<div class="rowSection">
+								<h3>Drop Down List Items</h3>
+								<h4>Displayed Word:</h4><input type="text" ng-model="dropDownListDisplayWord">
+								<h4>Value:</h4><input type="text" ng-model="dropDownListValue">
+							</div>
+							</div>
+							<div class="rowSection" ng-show="displayPreview" ng-hide="!displayPreview">
+								<button type="submit" ng-click="saveAnItemToADropDownList()">Add An Option</button>
+							</div>
+							<div class="dropDowListFormPreview" ng-show="displayPreview" ng-hide="!displayPreview">
+								<div class="rowSection">
+									<h1>Preview</h1>
+									<h2>{{dropDownQuestionTitleField}}</h2>
+								</div>
+								<div class="rowSection">
+									<select>
+										<option ng-repeat="option in dropDownListWord.options" value="{{option.value}}">{{option.displayWord}}</option>
+									</select>
+								</div>
+								<div class="rowSection">
+									<h4>Display Word : Value</h4>
+								</div>
+							</div>
+							<div ng-repeat="option in dropDownListWord.options">
+								<h4>{{option.displayWord}} : {{option.value}} : <button ng-click="removeDropDownItem(dropDownListWord.options, $index)">Remove</button></h4>
+							</div>
+							<div class="rowSection">
+								<button ng-click="saveADropDownList()">Save The Drop Down List Question</button>
+							</div>
+						</form>
+					</div>
+					<div ng-show="textAreaForm" ng-hide="!textAreaForm">
+						<form>
+							<h3>Text Area Question</h3><br />
+							<h3>Form Data:</h3><br />
+							<h4>Question Name (used for searching): </h4><input required type="text" required ng-model="textAreaQuestionNameField">
+							<h4>Question Title (will be displayed to the user)</h4><input required type="text" required ng-model="textAreaQuestionTitleField">
+							<h4>Description (more detail than the name)</h4><input required type="text" ng-model="textAreaQuestionDescriptionField">
+							<h4>Question Rows: </h4><input required type="number" ng-model="textAreaRowsField">
+							<h4>Question Cols: </h4><input required type="number" ng-model="textAreaColsField">
+							<h4>Question Placeholder (dissapears when selected)</h4><input required type="text" ng-model="textAreaPlaceholderField">
+							<h4>Wrap Text(new lines will be saved)</h4><input type="checkbox" value="false" ng-model="textAreaWrapHardProperty" ng-change="changeTextAreaWrapProperty()">
+							<h4>Max Length:</h4><input required type="number" ng-model="textAreaMaxLengthProperty">
+							<h4>Required (is the user required to fill this in?)</h4><input type="checkbox" ng-model="textAreaRequiredField">
+							<div class="dropDowListFormPreview">
+								<h1>Preview</h1>
+								<textarea rows="{{textAreaRowsField}}" cols="{{textAreaColsField}}" wrap="{{textAreaWrapProperty}}" ng-requiired="{{textAreaRequiredField}}" placeholder="{{textAreaPlaceholderField}}" maxlength="{{textAreaMaxLengthProperty}}" value="{{textAreaValue}}"></textarea>
+							</div>
+							<button ng-click="saveATextArea()">Save The Text Area Question</button>
+						</form>
+					</div>
+					<div ng-show="checkboxForm" ng-hide="!checkboxForm">
+						<h3>Check Box List Question</h3>
+						<h3>Form Data:</h3>
+						<h4>Question Name (used for searching): </h4><input type="text" required ng-model="checkBoxListQuestionNameField">
+						<h4>Question Title (will be displayed to the user)</h4><input type="text" required ng-model="checkBoxListQuestionTitleField">
+						<h4>Description (more detail than the name)</h4><input type="text" ng-model="checkBoxListQuestionDescriptionField">
+						<h4>Required (is the user required to fill this in?)</h4><input type="checkbox" ng-model="checkBoxListQuestionRequiredField">
+						<h4>Group Name (must be unique for the whole survey)</h4><input type="text" required ng-model="checkBoxListGroupNameField">
+						<h3>Check Box Items</h3><br />
+						<h4>Displayed Word:</h4><input type="text" ng-model="checkBoxListDisplayWord">
+						<h4>Value:</h4><input type="text" ng-model="checkBoxListValue">
+						<button type="submit" ng-click="saveAnItemToACheckBoxList()">Add An Option</button>
+						<div class="checkBoxListFormPreview">
+							<h1>Preview</h1>
+							<h2>{{checkBoxListQuestionTitleField}}</h2>
+							<div ng-repeat="option in checkBoxListWord.options">
+								<input type="checkbox" name="{{checkBoxListGroupNameField}}" value="{{option.value}}">{{option.displayWord}}
+							</div>
+						</div>
+						<h4>Display Statement : Value</h4>
+						<div ng-repeat="option in checkBoxListWord.options">
+							<h4>{{option.displayWord}} : {{option.value}}<button ng-click="removeCheckBoxItem(checkBoxListWord.options, $index)">Remove</button></h4>
+						</div>
+						<button ng-click="saveACheckBoxList()">Save The Check Box List Question</button>
+					</div>
+					<div ng-show="radioButtonForm" ng-hide="!radioButtonForm">
+						<h3>Radio Button List Question</h3>
+						<h3>Form Data:</h3>
+						<h4>Question Name (used for searching): </h4><input type="text" required ng-model="radioButtonListQuestionNameField">
+						<h4>Question Title (will be displayed to the user)</h4><input type="text" required ng-model="radioButtonListQuestionTitleField">
+						<h4>Description (more detail than the name)</h4><input type="text" ng-model="radioButtonListQuestionDescriptionField">
+						<h4>Required (is the user required to fill this in?)</h4><input type="checkbox" ng-model="radioButtonListQuestionRequiredField">
+						<h4>Group Name (must be unique for the whole survey)</h4><input type="text" required ng-model="radioButtonListGroupNameField">
+						<h3>Radio Button Items</h3>
+						<h4>Displayed Word:</h4><input type="text" ng-model="radioButtonListDisplayWord">
+						<h4>Value:</h4><input type="text" ng-model="radioButtonListValue">
+						<button type="submit" ng-click="saveAnItemToARadioButtonList()">Add An Option</button>
+						<div class="radioButtonListFormPreview">
+							<h1>Preview</h1>
+							<h2>{{radioButtonListQuestionTitleField}}</h2>
+							<div ng-repeat="option in radioButtonListWord.options">
+								<input type="radio" name="{{radioButtonListGroupNameField}}" value="{{option.value}}" ng-model="questionValueArray[option._id]">{{option.displayWord}}
+							</div>
+						</div>
+						<h4>Display Statement : Value</h4>
+						<div ng-repeat="option in radioButtonListWord.options">
+							<h4>{{option.displayWord}} : {{option.value}}<button ng-click="removeRadioButtonItem(radioButtonListWord.options, $index)">Remove</button></h4>
+						</div>
+						<button ng-click="saveARadioButtonList()">Save The Radio Button List Question</button>
+					</div>
+					<div ng-show="dataListForm" ng-hide="!dataListForm">
+						<h3>Searchable Drop Down List Question</h3>
+						<h3>Form Data:</h3>
+						<h4>Question Name (used for searching): </h4><input type="text" required ng-model="dataListQuestionNameField">
+						<h4>Question Title (will be displayed to the user)</h4><input type="text" required ng-model="dataListQuestionTitleField">
+						<h4>Description (more detail than the name)</h4><input type="text" ng-model="dataListQuestionDescriptionField">
+						<h4>Required (is the user required to fill this in?)</h4><input type="checkbox" ng-model="dataListQuestionRequiredField">
+						<h3>Drop Down Items</h3>
+						<h4>Displayed Word:</h4><input type="text" ng-model="dataListListDisplayWord">
+						<h4>Value:</h4><input type="text" ng-model="dataListListValue">
+						<button type="submit" ng-click="saveAnItemToADataList()">Add An Option</button>
+						<div class="dataListFormPreview">
+							<h1>Preview</h1>
+							<h2>{{dataListQuestionTitleField}}</h2>
+							<input list="theOptions">
+							<datalist id="theOptions">
+								<option ng-repeat="option in dataListWord.options" value="{{option.displayWord}}">{{option.value}}</option> 
+							</datalist>
+						</div>
+						<h4>Display Statement : Value</h4>
+						<div ng-repeat="option in dataListWord.options">
+							<h4>{{option.displayWord}} : {{option.value}}<button ng-click="removeDataListItem(dataListWord.options, $index)">Remove</button></h4>
+						</div>
+						<button ng-click="saveADataList()">Save The Searchable Drop Down List Question</button>
+					</div>
+					<div ng-show="textFieldForm" ng-hide="!textFieldForm">
+						<form>
+							<h3>Text Field Question</h3>
+							<h3>Form Data:</h3>
+							<h4>Question Name (used for searching): </h4><input type="text" required ng-model="textFieldQuestionNameField">
+							<h4>Question Title (will be displayed to the user)</h4><input required type="text" ng-model="textFieldQuestionTitleField">
+							<h4>Description (more detail than the name)</h4><input type="text" ng-model="textFieldQuestionDescriptionField">
+							<h4>Size: </h4><input type="number" ng-model="textFieldSizeField">
+							<h4>Max Length: </h4><input type="number" ng-model="textFieldMaxLengthField">
+							<h4>Question Placeholder (dissapears when selected)</h4><input type="text" ng-model="textFieldPlaceholderField">
+							<h4>Default Value</h4><input type="text" ng-model="textFieldDefaultValueField">
+							<h4>Required (is the user required to fill this in?)</h4><input type="checkbox" ng-model="textFieldRequiredField">
+							<div class="textFieldFormPreview">
+								<h1>Preview</h1>
+								<h3>{{textFieldQuestionTitleField}}</h3>
+								<input type="text" defaultValue="{{textFieldDefaultValueField}}" maxLength="{{textFieldMaxLengthField}}" ng-requiired="{{textFieldRequiredField}}" placeholder="{{textFieldPlaceholderField}}" size="{{textFieldSizeField}}}" value="{{textFieldDefaultValueField}}"></input>
+							</div>
+							<button ng-click="saveATextField()">Save The Text Field Question</button>
+						</form>
+					</div>
+					<div ng-show="sliderForm" ng-hide="!sliderForm">
+						<form>
+							<h3>Slide Bar Question</h3><br />
+							<h3>Form Data:</h3>
+							<h4>Question Name (used for searching): </h4><input type="text" ng-model="sliderQuestionNameField">
+							<h4>Question Title (will be displayed to the user)</h4><input type="text" ng-model="sliderQuestionTitleField">
+							<h4>Description (more detail than the name)</h4><input type="text" ng-model="sliderQuestionDescriptionField">
+							<h4>Min Range:	</h4><input type="number" ng-model="sliderMinRangeField">
+							<h4>Max Range: 	</h4><input type="number" ng-model="sliderMaxRangeField">
+							<h4>Step Amount: 	</h4><input type="number" ng-model="sliderStepAmountField">
+							<h4>Units (Will be Displayed)</h4><input type="text" ng-model="sliderUnitsField">
+							<h4>Default Value</h4><input type="number" ng-model="sliderDefaultValueField">
+							<h4>Required (is the user required to fill this in?)</h4><input type="checkbox" ng-model="sliderRequiredField">
+							<div class="sliderFormPreview">
+								<h1>Preview</h1>
+								<h3>{{sliderQuestionTitleField}}</h3>
+								<input ng-model="theSlider" type="range" defaultValue="{{sliderDefaultValueField}}" max="{{sliderMaxRangeField}}" min="{{sliderMinRangeField}}" step="{{sliderStepAmountField}}" ng-requiired="{{textFieldRequiredField}}" value="{{sliderValueField}}" ng-change="updateSliderr(theSlider)"></input><input type="text" defaultValue="{{sliderDefaultValueField}}" value="{{theSlider}}" size="3" readOnly></input><h4>{{sliderUnitsField}}</h4><button ng-click="stepUpSlider()">Step Up</button><button ng-click="stepDownSlider()">Step Down</button>
+							</div>
+							<button ng-click="saveASliderForm()">Save The Slider Bar Question</button>
+						</form>
+					</div>
+					<div class="SurveyPreview" ng-show="aSurveyWasMade" ng-hide="!aSurveyWasMade">
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

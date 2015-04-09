@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en" ng-app="beerApp"> <!--<![endif]-->
+<head>
+<link rel="stylesheet" href="../../styles/beerFormStyles.css" type="text/css">
+<script type="text/javascript" src="../../bower_components/jquery/dist/jquery.js"></script>
+
+	<script src="../../bower_components/angular/angular.js"></script>
+	<script src="../../bower_components/angular-route/angular-route.js"></script>
+	<!-- <script src="app3.js"></script> -->
+	<script type="text/javascript" src="../../app/js/controllers3z.js"></script>
+	<script src="../../node_modules/angularGrid/ng-grid.js"></script>
+	<script>
+		console.log('message: '+message);
+	</script>
+</head>
+<script>
+ 	console.log("the url: "+document.URL);
+</script>
+<body>
+	<div class="backgroundImage" ng-controller="homePageController">
+		<div class="header">
+			<h1>{{ mainTitle }}</h1>
+		</div>
+		<div class="headerBuffer"></div>
+		<form action="/login" method="POST">
+			<div class="rowSection">
+				<h1>Sign In</h1>
+				<h4>Unsername: </h4><input type="text" name="email"></input>
+			</div>
+			<div class="rowSection">
+				<h4>Password: </h4><input type="password" name="password" value=""></input>
+			</div>
+			<div class="rowSection">
+				<button type="Submit">Log In</button>
+				<a href="/forgotPassword">Forgot Password</a>
+			</div>
+		</form>
+		<!-- <div class="loginArea" id="loginArea"><form action="/login" method="POST">
+          <input type="text" name="email" placeholder="username">
+          <input type="password" name="password" value="">
+          <input type="submit" value="Go"></form>
+        </div> -->
+	</div>
+</body>
+</html>

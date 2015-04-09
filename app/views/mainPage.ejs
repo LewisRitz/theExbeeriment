@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en" ng-app="publicApp">
+<head>
+<link rel="stylesheet" href="../../styles/beerFormStyles.css" type="text/css">
+<script type="text/javascript" src="../../bower_components/jquery/dist/jquery.js"></script>
+
+	<script src="../../bower_components/angular/angular.js"></script>
+	<script src="../../bower_components/angular-route/angular-route.js"></script>
+	<script type="text/javascript" src="../../app/js/surveyController.js"></script>
+	<script src="../../node_modules/angularGrid/ng-grid.js"></script>
+	<script src="/adminLogin.js"></script>
+	<script src="/notificationBar.js"></script>
+	<script src="/notificationBarService.js"></script>
+</head>
+<script>
+ 	console.log("the url: "+document.URL);
+</script>
+<body>
+	<div class="backgroundImage" ng-controller="surveyController">
+		<!--  THE PAGE HEADER -->
+		<div class="header sideBySideWrapper">
+			<div class="sideBySideWrapper" style="width:300px;">
+				<h1 class="sideBySide">The Exbeeriment</h1>
+				<h4  class="sideBySide" style="display:inline-block; color: white; margin-left:5px;" text-align="right" ng-click="toggleSignIn()">{{  signInButtonText }}</h4>
+			</div>
+			<div class="sideBySideWrapper" style="width:300px;" ng-show="adminLoginVisible" ng-hide="!adminLoginVisible">
+				<admin-login></admin-login style="background-color: orange; height: 200px; width: 100%; ">
+			</div>
+		</div>
+		<notification-Bar></notification-Bar>
+		<div class="headerBuffer"></div>
+
+		<!--  THE BODY OF THE PAGE -->
+		<div class="rowSection">
+			<h1>Welcome To The Exbeeriment</h1>
+			<h2>A website built for brewers to create dynamic forms for product reviews.</h2>
+			<h1 ng-click="showNotificationBar('Success')">Success!</h1>
+			<h1 ng-click="showNotificationBar('Error')">Error!</h1>
+			<h1 ng-click="showNotificationBar('Warning')">Warning!</h1>
+			<h1 ng-click="showNotificationBar('Info')">Info!</h1>
+			<h3>This website is in the pre-alpha stage</h3>
+		</div>
+	</div>
+</body>
+</html>
