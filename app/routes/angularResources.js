@@ -82,6 +82,16 @@ module.exports = function(app, passport) {
 		readStream.pipe(res);
 	});
 
+	app.get('/notificationBarController.js', function(req, res){
+		console.log('Request handler for "/notificationBar.js" called');
+		var filePath = './app/js/components/notificationBar/notification-bar-controller.js';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+
+
+
 	app.get('/dashboardController.js', function(req, res){
 		console.log('Request handler for "/dashboardController.js" called');
 		var filePath = './app/js/components/dashboard/dashboard-controller.js';
@@ -98,6 +108,13 @@ module.exports = function(app, passport) {
 		readStream.pipe(res);
 	});
 
+	app.get('/testScript.js', function(req, res){
+		console.log('Request handler for "/dashboardController.js" called');
+		var filePath = './app/js/testScript.js';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
 
 
 

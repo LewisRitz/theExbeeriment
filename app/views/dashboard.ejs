@@ -10,7 +10,9 @@
 
 	<script src="../../bower_components/angular/angular.js"></script>
 	<script src="../../bower_components/angular-route/angular-route.js"></script>
+	<script src="/notificationBarController.js"></script>
 	<script src="/dashboardController.js"></script>
+	<!-- <script src="/testScript.js"></script> -->
 	<!-- <script src="app3.js"></script> -->
 	<!-- <script type="text/javascript" src="../../app/js/controllers3z.js"></script> -->
 	<script src="../../node_modules/angularGrid/ng-grid.js"></script>
@@ -26,23 +28,22 @@
 			<div class="header">
 				<h1>The Exbeeriment</h1>
 			</div>
-			<div class="alertMessage" ng-class="myVar" style="background-color:{{alertMessageBackgroundColor}};">
-				<div class="rowSection">
-					<h1>{{myVar}}:</h1><h2>{{ alertMessageText }}</h2>
-				</div>
-			</div>
+
+			<notification-Bar></notification-Bar>
+
+
 			<div class="headerBuffer"></div>
-			<!-- <div class="rowSection">
-				<h1>Dashboard</h1>
-				<h4>Welcome to the dashboard! You should only be able to get here if you're signed in.</h4><br />
-			</div> -->
 			<div class="rowSection">
-				<h3 ng-click="showNotificationBar('Success')">Click here to trigger response message</h3>
+				<h3 ng-click="showNotificationBar()">Click here to trigger response message</h3>
 			</div>
 		</div>
-		<div class="phoneWidth"></div>
+		<!-- <div class="phoneWidth"></div> -->
 		<div class="formCreatingSection" ng-controller="formController" style="position: absolute;">
 			<h1>Form Creation</h1>
+			<!-- <div ng-controller="notificationBarController">
+				<notification-Bar info="naomi"></notification-Bar><br />
+				<notification-Bar info="igor"></notification-Bar>
+			</div> -->
 
 			<h2>Step 1: Create A New Survey</h2>
 			<h4>Enter the name of the survey</h4>

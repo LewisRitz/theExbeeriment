@@ -1,10 +1,10 @@
 'use strict';
 
-var publicApp = angular.module('publicApp', ['ngGrid', 'notificationBar'] );
+var publicApp = angular.module('publicApp', ['ngGrid'] );//, 'notificationBar'] );
 
 publicApp.controller('homepageController',['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
 
-	$scope.mainTitle = 'The Exbeeriment';
+	$scope.mainTitle = 'The Exbeerimentt';
 	var thePathArray = window.location.pathname.split('/');
 
 
