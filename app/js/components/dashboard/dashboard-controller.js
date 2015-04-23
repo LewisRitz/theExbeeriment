@@ -21,13 +21,20 @@ dashboardApp.controller('parentDashboardController', ['$scope', '$http', '$timeo
 	function($scope, $http, $timeout, $rootScope, notificationBarService) {
 
 	var numOfActiveMessages = 0;
-	$scope.showNotificationBar = function(){
+	$scope.showFirstNotificationBar = function(){
 		//var thing2 = notificationBarService.showNotificationBar('Success', 'Congradulations! It works!');
 		//notificationBarService.showNotificationBar('Warning', 'Congradulations! It works!');
-		notificationBarService.showNotificationBar('Error', 'Congradulations! It works!');
-		//notificationBarService.showNotificationBar('Info', 'Congradulations! It works!');
+		//notificationBarService.showNotificationBar('Error', 'Congradulations! It works!');
+		notificationBarService.showNotificationBar('Success', 'Congradulations! It works!');
 		// $rootScope.$emit('newMessage2', 'display this message');
 	};
+
+	$scope.showSecondNotificationBar = function(){  notificationBarService.showNotificationBar('Warning', 'Congradulations! It works!');  };
+	$scope.showThirdNotificationBar = function(){  notificationBarService.showNotificationBar('Error', 'Congradulations! It works!');  };
+	$scope.showFourthNotificationBar = function(){  notificationBarService.showNotificationBar('Info', 'Congradulations! It works!');  };
+
+
+
 
 	// $scope.$on('newMessage2', function(ev, data){
 	// 	//console.log("got it");
@@ -64,5 +71,92 @@ dashboardApp.controller('parentDashboardController', ['$scope', '$http', '$timeo
 
 dashboardApp.controller('formController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
 	
+	$scope.workflowItem = 'Main';
+
+	$scope.workflowItemShow = function(WorkflowStepName) {
+		if (WorkflowStepName === $scope.workflowItem) { return true; }
+		else { return false; }
+	};
+
+	$scope.changeWorkflowStep = function(newWorkflowStep) {
+		$scope.workflowItem = newWorkflowStep;
+	};
+	$scope.outputWorkFlowStep = function() {
+		console.log($scope.workflowItem);
+	};
+}]);
+
+
+dashboardApp.controller('pageNavigationController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
+
+	$scope.currentPage = 'Homepage';
+
+	$scope.pageStructure = [
+	{
+		mainPage: {
+			name = 'Homepage'
+		}
+	}, {
+		mainPage: {
+			name = 'Survey'
+		},
+		subpages = [{
+			name = 'SurveyDashboard'
+		},{
+			name = 'CreateSurveyPage'
+		},{
+			name = 'ViewSurveyListPage'
+		},{
+			name = 'ViewSurveyPage'
+		}]
+	}, {
+		mainPage: {
+			name = 'Statistics'
+		},
+		subpages = [{
+			name = 'StatisticsDashboard'
+		}]
+	}]
+
+	$scope.currentPageCheck = function(pageInQuestion) {
+		console.log("check: "+pageInQuestion+" : "+(pageInQuestion === $scope.currentPage));
+		// return (pageInQuestion === $scope.currentPage);
+		if(pageInQuestion === $scope.currentPage) return true
+			else return false
+	};
+
+	$scope.changePageTo = function(newPage) {
+		$scope.currentPage = newPage;
+	};
+
 
 }]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////

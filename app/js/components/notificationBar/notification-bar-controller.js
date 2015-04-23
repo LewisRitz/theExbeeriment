@@ -46,19 +46,21 @@ notificationBar.controller('notificationBarController', ['$scope', '$http', '$ti
 
 	// $scope.naomi =  testService.naomi();
 	// $scope.igor = testService.igor();
-
+	var activeMessageIndex;
 	$scope.theClassName = '';
 	$scope.alertMessageText = '';
 
 	$rootScope.$on('newMessage', function(ev, displayMessage, className){
+		activeMessageIndex++;
+		var currentMessageNum = activeMessageIndex;
 		$scope.theClassName = className;
 		$scope.alertMessageText = displayMessage;
 		// console.log("got it yooo");
 		$timeout(function(){
-			//if(activeMessageIndex === currentMessageNum){ 
+			if(activeMessageIndex === currentMessageNum){ 
 				$scope.theClassName = '';
 				$scope.alertMessageText = '';
-			//}
+			}
 		}, 3000);
 
 	});

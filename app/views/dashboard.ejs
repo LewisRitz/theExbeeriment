@@ -25,40 +25,96 @@
 <body>
 	<div class="backgroundImage">
 		<div ng-controller="parentDashboardController">
+
 			<div class="header">
 				<h1>The Exbeeriment</h1>
 			</div>
 
 			<notification-Bar></notification-Bar>
+			<div ng-controller="pageNavigationController">
+				<div class="navBar">
+					<h2><div class="navBarButton" ng-click="changePageTo('Homepage')">Homepage</div></h2>
+					<h2><div class="navBarButton" ng-click="changePageTo('SurveyDashboard')">Survey Page</div></h2>
+				</div>
+				<div class="secondaryNavBar" ng-show="currentPageCheck('SurveyDashboard')" ng-hide="!(currentPageCheck('SurveyDashboard'))">
+					<div class="navBarButton" ng-click="changePageTo('CreateSurveyPage')"><h4>Create A Survey</h4></div>
+				</div>
 
+				<div class="headerBuffer"></div>
 
-			<div class="headerBuffer"></div>
-			<div class="rowSection">
-				<h3 ng-click="showNotificationBar()">Click here to trigger response message</h3>
+				<!-- <div class="phoneWidth"></div> -->
+				<div class="pageShell">
+					<div class="Homepage" ng-show="currentPageCheck('Homepage', '')" ng-hide="!(currentPageCheck('Homepage'))">
+						<h1>Welcome To The Homepage!!</h1>
+					</div>
+
+					<div class="SurveyDashboardPage" ng-show="currentPageCheck('SurveyDashboard', 'Survey')"  ng-hide="!(currentPageCheck('SurveyDashboard'))">
+						<h1>Welcome to the Survey Dashboard!!</h1>
+					</div>
+
+					<div class="CreateSurveyPage" ng-show="currentPageCheck('CreateSurveyPage')" ng-hide="!(currentPageCheck('CreateSurveyPage'))">
+						<div class="formCreatingSection" ng-controller="formController" style="position: absolute;">
+							<h1>Form Creation</h1>
+							<!-- <div ng-controller="notificationBarController">
+								<notification-Bar info="naomi"></notification-Bar><br />
+								<notification-Bar info="igor"></notification-Bar>
+							</div> -->
+							<!-- <button ng-click="outputWorkFlowStep()">Click for results</button> -->
+
+							<div class"workflowArea">
+								<div class="workflowStep Step1" ng-show="workflowItemShow('Main')" ng-hide="!workflowItemShow('Main')">
+									<h2>Step 1: Create A New Survey</h2>
+									<div class="rowSection">
+										<h4>Enter the name of the survey</h4><input type="text"></input>
+									</div>
+									<div class="rowSection">
+										<h4>Enter a survey description</h4><input type="text"></input>
+									</div>
+									<div class="workflowButtonContainer">
+										<button class="workflowButton" ng-click="changeWorkflowStep('AddBeerBatch')">Next Step</button>
+									</div>
+								</div>
+								<div class="workflowStep Step2" ng-show="workflowItemShow('AddBeerBatch')" ng-hide="!(workflowItemShow('AddBeerBatch'))">
+									<h2>Setp 2: Create A New Beer-Batch</h2>
+									<div class="rowSection">
+										<h4>Enter the name of the beer</h4><input type="text"></input>
+									</div>
+									<div class="rowSection">
+										<h4>Enter the batch info</h4><input type="text"></input>
+									</div>
+									<div class="workflowButtonContainer">
+										<button class="workflowButton" ng-click="changeWorkflowStep('Main')">Previous</button>
+										<button class="workflowButton" ng-click="changeWorkflowStep('AddBatchDetails')">Step 3/4</button>
+									</div>
+								</div>
+								<div class="workflowStep Step3" ng-show="workflowItemShow('AddBatchDetails')" ng-hide="!(workflowItemShow('AddBatchDetails'))">
+									<h2>Step 3: Create Details For Your Beer-Batch (optional)</h2>
+									<div class="rowSection">
+										<h4>Enter the beer batch detail category</h4><input type="text"></input>
+									</div>
+									<div class="rowSection">
+										<h4>Enter some details for the beer batch</h4><input type="text"></input>
+									</div>
+									<div class="workflowButtonContainer">
+										<button class="workflowButton" ng-click="changeWorkflowStep('AddBeerBatch')">Previous</button>
+										<button class="workflowButton" ng-click="changeWorkflowStep('AddSurveyQuetions')">Step 4/4</button>
+									</div>
+								</div>
+								<div class="workflowStep Step4" ng-show="workflowItemShow('AddSurveyQuetions')" ng-hide="!(workflowItemShow('AddSurveyQuetions'))">
+									<h2>Step 4: Add Your Survey Quetions</h2>
+									<div class="workflowButtonContainer">
+										<button class="workflowButton" ng-click="changeWorkflowStep('AddBatchDetails')">Previous</button>
+										<button class="workflowButton" ng-click="changeWorkflowStep('AddSurveyQuetions')">Submit</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<!-- <div class="phoneWidth"></div> -->
-		<div class="formCreatingSection" ng-controller="formController" style="position: absolute;">
-			<h1>Form Creation</h1>
-			<!-- <div ng-controller="notificationBarController">
-				<notification-Bar info="naomi"></notification-Bar><br />
-				<notification-Bar info="igor"></notification-Bar>
-			</div> -->
 
-			<h2>Step 1: Create A New Survey</h2>
-			<h4>Enter the name of the survey</h4>
-			<h4>Enter a survey description</h4>
 
-			<h2>Setp 2: Create A New Beer-Batch</h2>
-			<h4>Enter the name of the beer</h4>
-			<h4>Enter the batch info</h4>
-
-			<h2>Step 3: Create Details For Your Beer-Batch (optional)</h2>
-			<h4>Enter the beer batch detail category</h4>
-			<h4>Enter some details for the beer batch</h4>
-
-			<h2>Step 4: Add Your Survey Quetions</h2>
-		</div>
 
 		<style>
 			h1, h2, h4 { text-align: center !important; } 

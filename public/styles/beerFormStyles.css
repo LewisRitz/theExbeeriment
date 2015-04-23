@@ -1,7 +1,7 @@
 body, html { margin:0px; padding:0px; height: 100%; width: 100%; }
 .header { height: 60px; width: 100%; position: fixed; background-color: black; z-index: 5; }
 .header h1 { color: #FFF; text-align: center; margin-top: 12px; margin-bottom: 12px; }
-.headerBuffer { width: 100%; height: 65px; }
+.headerBuffer { width: 100%; height: 105px; }
 
 
 .backgroundImage {
@@ -105,3 +105,70 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4c700', end
   color: red;
   font-size:3em;
 }
+
+
+
+
+
+
+/*********** WORKFLOW AREA *************/
+.workflowStep {
+	margin-left: auto;
+	margin-right: auto;
+	width: 1000px;
+	height: auto;
+}
+.workflowButtonContainer {
+	text-align: center;
+	width: 100%;
+}
+
+
+
+/*********** Page Controll Area ************/
+.navBar {
+	width: 100%;
+	background-color: black;
+	margin-top: 0px;
+	padding-top: 60px;
+	position: fixed;
+	z-index: 4;
+}
+.navBar h2 {
+	margin-top: 0px;
+	vertical-align: middle;
+	color: white;
+	display: inline;
+}
+.navBar h2:hover{
+	opacity: 0.5;
+	color: gray;
+}
+.navBarButton {
+	margin-left: 20px;
+	width: 150px;
+	text-align: center;
+	display: inline-block;
+}
+
+.secondaryNavBar {
+	width: 100%;
+	background-color: black;
+	margin-top: 0px;
+	padding-top: 90px;
+	position: fixed;
+	z-index: 2;
+}
+.secondaryNavBar h4 {
+	margin-top: 0px;
+	vertical-align: middle;
+	color: white;
+	display: inline;
+}
+.secondaryNavBar h4:hover{
+	opacity: 0.5;
+	color: gray;
+}
+
+
+
