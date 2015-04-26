@@ -21,6 +21,12 @@ notificationBar.factory('notificationBarService', ['$timeout', '$rootScope', fun
 		// alertMessageText: function() { return alertMessageText; },
 		showNotificationBar: function(className, AlertMessageText){ 
 			$rootScope.$emit('newMessage', AlertMessageText, className);
+		},
+		setSomeProperty: function(someProperty){
+			$rootScope.$emit('setProperty', someProperty);
+		},
+		logSomeProperty: function(someMessage){
+			$rootScope.$emit('logProperty', someMessage);
 		}
 	};
 }]);
@@ -49,6 +55,7 @@ notificationBar.controller('notificationBarController', ['$scope', '$http', '$ti
 	var activeMessageIndex;
 	$scope.theClassName = '';
 	$scope.alertMessageText = '';
+	$scope.theSomeProperty = 'Yellow';
 
 	$rootScope.$on('newMessage', function(ev, displayMessage, className){
 		activeMessageIndex++;
@@ -56,6 +63,7 @@ notificationBar.controller('notificationBarController', ['$scope', '$http', '$ti
 		$scope.theClassName = className;
 		$scope.alertMessageText = displayMessage;
 		// console.log("got it yooo");
+		
 		$timeout(function(){
 			if(activeMessageIndex === currentMessageNum){ 
 				$scope.theClassName = '';
@@ -63,6 +71,14 @@ notificationBar.controller('notificationBarController', ['$scope', '$http', '$ti
 			}
 		}, 3000);
 
+	});
+
+	$rootScope.$on('setProperty', function(ev, someProperty){
+		$scope.theSomeProperty =someProperty;
+	});
+
+	$rootScope.$on('logProperty', function(ev, message){
+		console.log("logging: "+message+". Here is the current property status: "+$scope.theSomeProperty);
 	});
 
 	// $scope.$on('newMessage', function(ev, data){
