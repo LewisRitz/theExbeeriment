@@ -1,6 +1,6 @@
 'use strict';
 
-var dashboardApp = angular.module('dashboardApp', ['ngGrid', 'notificationBar'] );
+var dashboardApp = angular.module('dashboardApp', ['ngGrid', 'notificationBar', 'angularGrid'] );
 
 // dashboardApp.factory('someService', ['$rootScope', function($rootScope){
 // 	//console.log("random service here");
@@ -17,7 +17,7 @@ var dashboardApp = angular.module('dashboardApp', ['ngGrid', 'notificationBar'] 
 
 
 
-dashboardApp.controller('parentDashboardController', ['$scope', '$http', '$timeout', '$rootScope', 'notificationBarService', 
+dashboardApp.controller('parentDashboardController', ['$scope', '$http', '$timeout', '$rootScope', 'notificationBarService',
 	function($scope, $http, $timeout, $rootScope, notificationBarService) {
 
 	var numOfActiveMessages = 0;
@@ -49,7 +49,14 @@ dashboardApp.controller('parentDashboardController', ['$scope', '$http', '$timeo
     			if(status===200){
     				angular.forEach(data,function(item,index){ item.index=index; item.beerBatchIndexMap = []; item.questionIndexMap = []; });
 					// console.log("Retreived survey data "+JSON.stringify(data));
+					for(var i=0;i<data.length;i++){
+    					//console.log(i+": "+JSON.stringify(data[i]));
+    					data[i].selectedInGrid = false;
+    					//data[i].push({testObject: true});
+    				}
     				$scope.Surveys = data;
+    				$scope.SurveyGrid.rowData = data;
+    				$scope.SurveyGrid.api.onNewRows();
     			}
     		}).error(function(data, status, headers, config){
     			notificationBarService.showNotificationBar('Error', 'Survey Data Could Not Be Retreived From The Server. Please Try Again Later. ');
@@ -65,7 +72,14 @@ dashboardApp.controller('parentDashboardController', ['$scope', '$http', '$timeo
     			if(status===200){
     				angular.forEach(data,function(item,index){ item.index=index; item.surveyIndexMap = []; });
     				$scope.BeerBatches = data;
-    				console.log("Retreived beer data "+JSON.stringify(data));
+                    for(var i=0;i<data.length;i++){
+                        //console.log(i+": "+JSON.stringify(data[i]));
+                        data[i].selectedInGrid = false;
+                        //data[i].push({testObject: true});
+                    }
+    				//console.log("Retreived beer data "+JSON.stringify(data));
+    				$scope.BeerBatchGrid.rowData = data;
+    				$scope.BeerBatchGrid.api.onNewRows();
     				//notificationBarService.showNotificationBar('Success', 'Text Area \''+data.name+'\' was created successfully!');
     			}
     		}).error(function(data, status, headers, config){
@@ -82,7 +96,15 @@ dashboardApp.controller('parentDashboardController', ['$scope', '$http', '$timeo
     			if(status===200){
     				angular.forEach(data,function(item,index){ item.index=index; item.surveyIndexMap = []; });
     				$scope.Questions = data;
-    				console.log("Retreived question data "+JSON.stringify(data));
+    				//console.log("Retreived question data "+JSON.stringify(data));
+    				for(var i=0;i<data.length;i++){
+    					//console.log(i+": "+JSON.stringify(data[i]));
+    					data[i].selectedInGrid = false;
+    					//data[i].push({testObject: true});
+    				}
+    				//console.log("Retreived question data "+JSON.stringify(data));
+    				$scope.QuestionsGrid.rowData = data;
+    				$scope.QuestionsGrid.api.onNewRows();
     				//notificationBarService.showNotificationBar('Success', 'Text Area \''+data.name+'\' was created successfully!');
     				setTimeout(function() { $scope.createIndexMappings(); } , 1000);
     			}
@@ -91,6 +113,190 @@ dashboardApp.controller('parentDashboardController', ['$scope', '$http', '$timeo
     		}); 
     };
     $scope.GetQuestions();
+
+    $scope.changeSelection = function(){
+    	// for(var i=0;i<$scope.QuestionsGrid.rowData.length;i++){
+    	// 	console.log("here: "+JSON.stringify($scope.QuestionsGrid.rowData[i].selectedInGrid));
+    	// 	$scope.QuestionsGrid.rowData[i].selectedInGrid = true;
+    	// 	//$scope.QuestionsGrid.api.softRefreshView();
+    	// 	$scope.QuestionsGrid.api.refreshView();
+
+    	// }
+    	for(var i=0;i<$scope.QuestionsGrid.rowData.length;i++){
+    		console.log("here: "+JSON.stringify($scope.QuestionsGrid.rowData[i].selectedInGrid));
+    		if ($scope.QuestionsGrid.rowData[i].selectedInGrid === true){
+    			$scope.QuestionsGrid.rowData[i].selectedInGrid = false;
+    		} else { $scope.QuestionsGrid.rowData[i].selectedInGrid = true; }
+    	}
+    	$scope.QuestionsGrid.api.refreshView();
+    };
+
+
+
+    var columnDefs = [{
+    		field:'surveyName', 
+    		displayName:'Name',
+    		cellTemplate: '<div class="widerGrid" ng-click="selectAssociatedBeerBatches(row)" ng-bind="row.getProperty(col.field)"></div>',
+    		cellClassRules: { 
+				'rag-green': function(params) { return params.data.selectedInGrid; }//params.data.selectedInGrid === true; }
+			}
+    	},{	
+    		field:'surveyDescription', 
+    		displayName:'Description',
+    		cellTemplate: '<div class="widerGrid" ng-click="selectAssociatedBeerBatches(row)" ng-bind="row.getProperty(col.field)"></div>',
+    		cellClassRules: { 
+    			'rag-green': function(params) { return params.data.selectedInGrid; }//params.data.selectedInGrid === true; }
+    		}
+    	}];
+
+    var rowData = $scope.Surveys;
+
+    $scope.SurveyGrid = {
+    	columnDefs: columnDefs,
+    	rowData: null,
+    	dontUseScrolls: false,
+    	rowSelection: 'single',
+    	rowSelected: hilightAfterClickingASurvey,
+    	enableSorting: true
+    };
+
+    $scope.BeerBatchGrid = {
+    	columnDefs: [{
+    		field:'beerTitle', 
+    		displayName:'Name',
+    		cellTemplate: '<div ng-click="selectAssociatedSurveys(row)" class="widerGrid" ng-bind="row.getProperty(col.field)"></div>',
+            cellClassRules: { 
+                'rag-green': function(params) { return params.data.selectedInGrid; }//params.data.selectedInGrid === true; }
+            }
+    	},{	
+    		field:'batchNumber', 
+    		displayName:'Description',
+    		cellTemplate: '<div ng-click="selectAssociatedSurveys(row)" class="widerGrid" ng-bind="row.getProperty(col.field)"></div>',
+            cellClassRules: { 
+                'rag-green': function(params) { return params.data.selectedInGrid; }//params.data.selectedInGrid === true; }
+            }
+    	}],
+    	rowData: null,
+    	dontUseScrolls: false,
+    	rowSelection: 'single',
+        rowSelected: highlightAfterClickingABeerBatch,
+        enableSorting: true
+    };
+
+    $scope.QuestionsGrid = {
+    	columnDefs: [{
+    		field:'name', 
+    		displayName:'Name',
+    		cellTemplate: '<div ng-click="selectAssociatedSurveys(row)" class="widerGrid" ng-bind="row.getProperty(col.field)"></div>',
+    		cellClassRules: { 
+    			'rag-green': function(params) { return params.data.selectedInGrid; }//params.data.selectedInGrid === true; }
+    		}
+    	},{	
+    		field:'title', 
+    		displayName:'Title',
+    		cellTemplate: '<div ng-click="selectAssociatedSurveys(row)" class="widerGrid" ng-bind="row.getProperty(col.field)"></div>',
+    		cellClassRules: { 
+    			'rag-green': function(params) { return params.data.selectedInGrid; }//params.data.selectedInGrid === true; }
+    		}
+    	},{	
+    		field:'description', 
+    		displayName:'Description',
+    		cellTemplate: '<div ng-click="testFunction()" class="widerGrid" ng-bind="row.getProperty(col.field)"></div>',
+    		cellClassRules: { 
+    			'rag-green': function(params) { return params.data.selectedInGrid; }//params.data.selectedInGrid === true; }
+    		}
+    	}],
+    	rowSelection: 'single',
+    	rowData: null,
+    	rowSelected: highlightUponSelection,
+    	enableSorting: true
+    };
+
+    function hilightAfterClickingASurvey(row){
+    	for(var i=0;i<$scope.SurveyGrid.rowData.length;i++){
+    		$scope.SurveyGrid.rowData[i].selectedInGrid = false;
+    	}
+    	if($scope.SurveyGrid.rowData[row.index].selectedInGrid === true){
+    		$scope.SurveyGrid.rowData[row.index].selectedInGrid = false;
+    	} else { $scope.SurveyGrid.rowData[row.index].selectedInGrid = true; }
+    	$scope.SurveyGrid.api.refreshView();
+
+    	// SELECT ASSOCIATED QUESTIONS
+    	for(var i=0;i<$scope.QuestionsGrid.rowData.length;i++){
+    		$scope.QuestionsGrid.rowData[i].selectedInGrid = false;
+    	}
+    	for(var i=0;i<row.questionIndexMap.length;i++){
+    		$scope.QuestionsGrid.rowData[row.questionIndexMap[i]].selectedInGrid = true;
+    	}
+    	$scope.QuestionsGrid.api.refreshView();
+
+        // SELECT ASSOCIATED BEERBATCHES
+        for(var i=0;i<$scope.BeerBatchGrid.rowData.length;i++){
+            $scope.BeerBatchGrid.rowData[i].selectedInGrid = false;
+        }
+        for(var i=0;i<row.beerBatchIndexMap.length;i++){
+            $scope.BeerBatchGrid.rowData[row.beerBatchIndexMap[i]].selectedInGrid = true;
+        }
+        $scope.BeerBatchGrid.api.refreshView();
+    };
+
+    function highlightUponSelection(row){
+    	// SELECT THE ROW YOU CLICKED
+    	for(var i=0;i<$scope.QuestionsGrid.rowData.length;i++){
+    		$scope.QuestionsGrid.rowData[i].selectedInGrid = false;
+    	}
+    	if($scope.QuestionsGrid.rowData[row.index].selectedInGrid === true) {
+    		$scope.QuestionsGrid.rowData[row.index].selectedInGrid = false;
+    	} else { $scope.QuestionsGrid.rowData[row.index].selectedInGrid = true; }
+    	$scope.QuestionsGrid.api.refreshView();
+
+    	// SELECT ASSOCIATED SURVEYS
+    	for(var i=0;i<$scope.SurveyGrid.rowData.length;i++){
+    		$scope.SurveyGrid.rowData[i].selectedInGrid = false;
+    	}
+    	for(var i=0;i<row.surveyIndexMap.length;i++){
+    		$scope.SurveyGrid.rowData[row.surveyIndexMap[i]].selectedInGrid = true;
+    	}
+    	$scope.SurveyGrid.api.refreshView();
+
+        // SELECT ASSOCIATED BEERBATCHES
+        for(var i=0;i<$scope.BeerBatchGrid.rowData.length;i++){
+            $scope.BeerBatchGrid.rowData[i].selectedInGrid = false;
+        }
+        for(var i=0;i<row.surveyIndexMap.length;i++){
+            for(var x=0;x<$scope.SurveyGrid.rowData[row.surveyIndexMap[i]].beerBatchIndexMap.length;x++){
+                $scope.BeerBatchGrid.rowData[$scope.SurveyGrid.rowData[row.surveyIndexMap[i]].beerBatchIndexMap[x]].selectedInGrid = true;
+            }
+        }
+        $scope.BeerBatchGrid.api.refreshView();
+
+     };
+
+     function highlightAfterClickingABeerBatch(row){
+        console.log(row);
+     };
+
+     function selectAppropriateBeerBatches(row){
+     	console.log("stuff yooo");
+     	// 	if(row.entity.beerBatchIndexMap[0] === undefined) { $scope.beerBatches.selectRow(lastSelectedBeerBatchRowIndex, false); } else {
+    	// 	$scope.beerBatches.selectRow(row.entity.beerBatchIndexMap[0], true);
+    	// 	lastSelectedBeerBatchRowIndex = row.entity.beerBatchIndexMap[0];
+    	// }
+    	// $scope.selectAssociatedQuestions(row);
+     };
+
+    // var highlightUponSelection = function(row){
+    // 	console.log("asdfasdf");
+    // 	for(var i=0;i<$scope.QuestionsGrid.rowData.length;i++){
+    // 		console.log("here: "+JSON.stringify($scope.QuestionsGrid.rowData[i].selectedInGrid));
+    // 		if ($scope.QuestionsGrid.rowData[i].selectedInGrid === true){
+    // 			$scope.QuestionsGrid.rowData[i].selectedInGrid = false;
+    // 		} else { $scope.QuestionsGrid.rowData[i].selectedInGrid = true; }
+    // 	}
+    // 	$scope.QuestionsGrid.api.refreshView();
+    // };
+
+
 
     $scope.mySelections = [];
 
@@ -125,15 +331,18 @@ dashboardApp.controller('parentDashboardController', ['$scope', '$http', '$timeo
     		}
     		for(var k=0; k<$scope.Surveys[j].questions.length; k++){
     			for(var i=0; i<$scope.Questions.length; i++){
-	    			if($scope.Questions[i]._id === $scope.Surveys[j].questions[k]){
+	    			if($scope.Questions[i]._id === $scope.Surveys[j].questions[k].questionId){
+	    				console.log("match");
 	    				$scope.Questions[i].surveyIndexMap.push(j);
 	    				$scope.Surveys[j].questionIndexMap.push(i);
 	    			}
 	    		}
     		}
     	}
-    	// console.log('BeerBatches: '+JSON.stringify($scope.BeerBatches)+" surveys: "+JSON.stringify($scope.Surveys));
-    }
+    	// console.log('BeerBatches: '+JSON.stringify($scope.BeerBatches));
+    	// console.log("Surveys: "+JSON.stringify($scope.Surveys));
+    	// console.log("Questions: "+JSON.stringify($scope.Questions));
+    };
 
 
     var lastSelectedBeerBatchRowIndex = 0

@@ -181,6 +181,38 @@ module.exports = function(app, passport) {
 		readStream.pipe(res);
 	});
 
+	app.get('/angularGrid', function(req, res) {
+		console.log("Request handler '/angularGrid' was called.");
+		var filePath = 'node_modules/angular-grid/dist/angularGrid.min.js';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+
+	app.get('/angularGridStyles', function(req, res) {
+		console.log("Request handler '/angularGridStyles' was called.");
+		var filePath = 'node_modules/angular-grid/dist/angularGrid.min.css';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+
+	app.get('/angularGridThemeFresh', function(req, res) {
+		console.log("Request handler '/angularGridThemeFresh' was called.");
+		var filePath = 'node_modules/angular-grid/dist/theme-fresh.css';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+	
+	app.get('/angularGridThemeDark', function(req, res) {
+		console.log("Request handler '/angularGridThemeDark' was called.");
+		var filePath = 'node_modules/angular-grid/dist/theme-dark.css';
+		var stat = fileSystem.statSync(filePath);
+		var readStream = fileSystem.createReadStream(filePath);
+		readStream.pipe(res);
+	});
+
 	//**************** JQUERY FILES ****************///
 
 	app.get('/bower_components/jquery/dist/jquery.js', function(req, res){

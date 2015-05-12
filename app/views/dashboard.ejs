@@ -12,6 +12,7 @@
 	<script src="../../bower_components/angular-route/angular-route.js"></script>
 	<script src="/notificationBarController.js"></script>
 	<script src="/dashboardController.js"></script>
+	<script src="/angularGrid"></script>
 	<!-- <script src="/testScript.js"></script> -->
 	<!-- <script src="app3.js"></script> -->
 	<!-- <script type="text/javascript" src="../../app/js/controllers3z.js"></script> -->
@@ -22,6 +23,9 @@
 	<!-- <link rel="stylesheet" href="../../styles/ngGridStyles.css" type="text/css"> -->
 	<!-- <link rel="stylesheet" type="text/css" href="http://angular-ui.github.com/ng-grid/css/ng-grid.css" /> -->
 	<link rel="stylesheet" type="text/css" href="http://angular-ui.github.com/ng-grid/css/ng-grid.css" />
+	<link rel="stylesheet" href="/angularGridStyles" type="text/css">
+	<link rel="stylesheet" href="/angularGridThemeFresh" type="text/css">
+	<link rel="stylesheet" href="/angularGridThemeDark" type="text/css">
 
 <!-- <link href="https://github.com/angular-ui/ng-grid/blob/v1.9.0/ng-grid.css" rel="stylesheet" type="text/css" /> -->
 </head>
@@ -35,6 +39,7 @@
 	height: 300px;
 	color: black;
 }*/
+.rag-green { background-color:rgba(0, 200, 20, 0.25); }
 </style>
 <body>
 	<div class="backgroundImage">
@@ -50,6 +55,7 @@
 					<h2><div class="navBarButton" ng-click="changePageTo('Homepage')">Homepage</div></h2>
 					<h2><div class="navBarButton" ng-click="changePageTo('CreateSurveyPage')">Create Survey</div></h2>
 					<h2><div class="navBarButton" ng-click="changePageTo('SurveyList')">View Surveys</div></h2>
+					<h2><div class="navBarButton" ng-click="changePageTo('SecondSurveyList')">Grid Testing</div></h2>
 				</div>
 				<div class="secondaryNavBar" ng-show="currentPageCheck('SurveyDashboard')" ng-hide="!(currentPageCheck('SurveyDashboard'))">
 					<div class="navBarButton" ng-click="changePageTo('CreateSurveyPage')"><h4>Create A Survey</h4></div>
@@ -117,6 +123,33 @@
 					        <div class="gridStyle" ng-grid="gridOptions">
 					        </div>
 					    </body> -->
+					</div>
+					<div class="SecondGridPage" ng-show="curentPageCheck('SecondSurveyList', 'Survey')" ng-hide="!(currentPageCheck('SecondSurveyList', 'Survey'))">
+						<h1>Second Grid Page</h1>
+						<div class="RowWrapper">
+							<div class="RowSelector">
+								<h2>Beer Batches</h2>
+								<div class="ag-fresh" angular-grid="BeerBatchGrid"></div>
+							</div>
+						</div>
+						<div class="RowWrapper">
+							<div class="RowSelector">
+								<h2>Surveys</h2>
+								<div class="ag-fresh" angular-grid="SurveyGrid"></div>
+							</div>
+						</div>
+						<div class="RowWrapper">
+							<div class="RowSelector">
+								<h2>Questions</h2>
+								<div class="ag-fresh" angular-grid="QuestionsGrid"></div>
+							</div>
+						</div>
+						<div class="RowSelector">
+							<!-- <h4 ng-repeat="selecteRow in QuestionsGrid.selectedRows">
+								{{ selecteRow.name }}
+							</h4> -->
+							<button ng-click="changeSelection()">Click it</button>
+						</div>
 					</div>
 
 					<div class="CreateSurveyPage" ng-show="currentPageCheck('CreateSurveyPage')" ng-hide="!(currentPageCheck('CreateSurveyPage'))">
