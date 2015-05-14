@@ -39,27 +39,54 @@
 	height: 300px;
 	color: black;
 }*/
+.header h1 { width: 90%; display: inline-block; vertical-align: top; }
+.dropDownButton {
+	width: 60px; height: 51px; margin-top: 5px; background-color: #505050; display: inline-block; /*border: 1px solid white; */
+}
+.dropDownButton:hover {
+	background-color: white;
+}
 .rag-green { background-color:rgba(0, 200, 20, 0.25); }
+.threeBarsIcon { height: 30px; width: 30px; margin: 11px 14px 17px 15px; }
+.topBar { background-color: black; width: 30px; height: 5px; }
+.middleBar { background-color: black; width: 30px; height: 5px; margin-top: 7.5px; }
+.lowerBar { background-color: black; width: 30px; height: 5px; margin-top: 7.5px; }
+
+.theDropDowBar { width: 190px; background-color: black; margin-left: 80%; margin-top: -5px; }
+.navBar { margin-top: 0px; padding-top: 10px; width: inherit; padding-bottom: 30px; }
+.navBarButton{ display: block; margin-right: 0px; margin-left: 10px; width: inherit; }
 </style>
 <body>
 	<div class="backgroundImage">
 		<div ng-controller="parentDashboardController">
-
+			<div ng-controller="pageNavigationController">
 			<div class="header">
 				<h1>The Exbeeriment</h1>
+				<div class="dropDownButton" ng-click="dropDownSelected()">
+					<div class="threeBarsIcon">
+						<div class="topBar"></div>
+						<div class="middleBar"></div>
+						<div class="lowerBar"></div>
+					</div>
+				</div>
+				<div class="theDropDowBar" ng-show="dropDownSelectedTF" ng-hide="!(dropDownSelectedTF)">
+					<div class="navBar">
+						<h2><div class="navBarButton" ng-click="changePageTo('Homepage')">Homepage</div></h2>
+						<h2><div class="navBarButton" ng-click="changePageTo('CreateSurveyPage')">Create Survey</div></h2>
+						<h2><div class="navBarButton" ng-click="changePageTo('SecondSurveyList')">View Surveys</div></h2>
+					</div>
+				</div>
 			</div>
 
 			<notification-Bar></notification-Bar>
-			<div ng-controller="pageNavigationController">
-				<div class="navBar">
+				<!-- <div class="navBar">
 					<h2><div class="navBarButton" ng-click="changePageTo('Homepage')">Homepage</div></h2>
 					<h2><div class="navBarButton" ng-click="changePageTo('CreateSurveyPage')">Create Survey</div></h2>
-					<h2><div class="navBarButton" ng-click="changePageTo('SurveyList')">View Surveys</div></h2>
-					<h2><div class="navBarButton" ng-click="changePageTo('SecondSurveyList')">Grid Testing</div></h2>
+					<h2><div class="navBarButton" ng-click="changePageTo('SecondSurveyList')">View Surveys</div></h2>
 				</div>
-				<div class="secondaryNavBar" ng-show="currentPageCheck('SurveyDashboard')" ng-hide="!(currentPageCheck('SurveyDashboard'))">
+				<!-- <div class="secondaryNavBar" ng-show="currentPageCheck('SurveyDashboard')" ng-hide="!(currentPageCheck('SurveyDashboard'))">
 					<div class="navBarButton" ng-click="changePageTo('CreateSurveyPage')"><h4>Create A Survey</h4></div>
-				</div>
+				</div> -->
 
 
 				<!-- <navigationBar changeTo="Homepage"></navigationBar>
@@ -88,14 +115,14 @@
 						<h1>Welcome to the Survey Dashboard!!</h1>
 					</div>
 
-					<div class="SurveyDashboardPage" ng-show="currentPageCheck('SurveyList', 'Survey')"  ng-hide="!(currentPageCheck('SurveyList'))">
-						<h1>Welcome to the View Survey Page</h1>
+					<!-- <div class="SurveyDashboardPage" ng-show="currentPageCheck('SurveyList', 'Survey')"  ng-hide="!(currentPageCheck('SurveyList'))">
+						<h1>Welcome to the View Survey Page</h1> -->
 						<!-- <div class="GroupSelector">
 							<div ng-grid="gridOptions"></div>
 						</div> -->
 						<!-- <div class="gridDropdownContainer"> -->
 							<!-- <h3 style="margin-top:0px;"> -->
-						<div class="RowWrapper">
+						<!-- <div class="RowWrapper">
 							<div class="RowSelector">
 								<div class="gridStyle" ng-grid="gridOptions"></div>
 							</div>
@@ -113,7 +140,7 @@
 						<div class="RowSelector">
 							<div class="selectedItems">Name: {{BeerBatches[mySelections[0].beerBatchIndexMap[0]].beerTitle}}</div>
 							<div class="selectedItems">Description: {{mySelections[0].surveyDescription}}</div>
-						</div>
+						</div> -->
 							<!-- </h3> -->
 						<!-- </div> -->
 
@@ -123,9 +150,9 @@
 					        <div class="gridStyle" ng-grid="gridOptions">
 					        </div>
 					    </body> -->
-					</div>
+					<!-- </div> -->
 					<div class="SecondGridPage" ng-show="curentPageCheck('SecondSurveyList', 'Survey')" ng-hide="!(currentPageCheck('SecondSurveyList', 'Survey'))">
-						<h1>Second Grid Page</h1>
+						<!-- <h1>Second Grid Page</h1> -->
 						<div class="RowWrapper">
 							<div class="RowSelector">
 								<h2>Beer Batches</h2>
@@ -148,7 +175,7 @@
 							<!-- <h4 ng-repeat="selecteRow in QuestionsGrid.selectedRows">
 								{{ selecteRow.name }}
 							</h4> -->
-							<button ng-click="changeSelection()">Click it</button>
+							<!-- <button ng-click="changeSelection()">Click it</button> -->
 						</div>
 					</div>
 
